@@ -1,0 +1,235 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xl-6 col-md-6 col-sm-9 col-12 mx-auto my-5">
+      <!-- Card start -->
+      <div class="card">
+        <!-- Card header -->
+        <h5 class="card-header info-color white-text text-center py-4 text-upper z-depth-3 header-font-size">
+          <strong>Add property</strong>
+        </h5>
+        <!-- card body -->
+        <div class="card-body px-lg-5 pt-0">
+          <!-- Form start -->
+          <form [formGroup]="addPropertyForm" (ngSubmit)="onSubmit()" appIdentityRevealed enctype="multipart/form-data">
+            <div [hidden]="addPropertyForm.submitted">
+              <div class="cross-validation"
+                [class.cross-validation-error]="addPropertyForm.errors?.identityRevealed && (addPropertyForm.touched || addPropertyForm.dirty)">
+
+                <!-- Name -->
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input id="name" formControlName="name" class="form-control">
+
+                  <!-- If name validation fails -->
+                  <div
+                    *ngIf="addPropertyForm.get('name').invalid && (addPropertyForm.get('name').dirty || addPropertyForm.get('name').touched)"
+                    class="error-text">
+                    <div *ngIf="addPropertyForm.get('name').hasError('required')">
+                      Name is required.
+                    </div>
+                    <div *ngIf="addPropertyForm.get('name').hasError('minlength')">
+                      Name must be at least 2 characters long.
+                    </div>
+                    <div *ngIf="addPropertyForm.get('name').hasError('maxlength')">
+                      Name must be at max 25 characters long.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea id="description" rows="5" formControlName="description" class="form-control"></textarea>
+
+                  <!-- If description validation fails -->
+                  <div
+                    *ngIf="addPropertyForm.get('description').invalid && (addPropertyForm.get('description').dirty || addPropertyForm.get('description').touched)"
+                    class="error-text">
+                    <div *ngIf="addPropertyForm.get('description').hasError('required')">
+                      Description is required.
+                    </div>
+                    <div *ngIf="addPropertyForm.get('description').hasError('minlength')">
+                      Description must be at least 2 characters long.
+                    </div>
+                    <div *ngIf="addPropertyForm.get('description').hasError('maxlength')">
+                      Description must be at max 250 characters long.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Add Images -->
+                <div class="form-group">
+                  <label for="file">Add Images</label>
+                  <input type="file" id="file" accept="image/*" formControlName="file" class="form-control" multiple (change)="onFileChange($event)">
+
+                  <!-- If image validation fails -->
+                  <div
+                    *ngIf="addPropertyForm.get('file').invalid && (addPropertyForm.get('file').dirty || addPropertyForm.get('file').touched)"
+                    class="error-text">
+                    <div *ngIf="addPropertyForm.get('file').hasError('required')">
+                      Please select image
+                    </div>
+                    <div *ngIf="addPropertyForm.get('file').hasError('numberOfImage')">
+                      Maximum 5 images are allowed
+                    </div>
+                  </div>
+                </div>
+
+                <img *ngFor='let url of images'  [src]="url" height="150" width="200px" class="m-2"> <br/>
+
+                <!-- Address -->
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <textarea id="address" rows="5" formControlName="address" class="form-control"></textarea>
+
+                  <!-- If address validatin fails -->
+                  <div
+                    *ngIf="addPropertyForm.get('address').invalid && (addPropertyForm.get('address').dirty || addPropertyForm.get('address').touched)"
+                    class="error-text">
+                    <div *ngIf="addPropertyForm.get('address').hasError('required')">
+                      Address is required.
+                    </div>
+                    <div *ngIf="addPropertyForm.get('address').hasError('minlength')">
+                      Address must be at least 2 characters long.
+                    </div>
+                    <div *ngIf="addPropertyForm.get('address').hasError('maxlength')">
+                      Address must be at max 100 characters long.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Locality/Area -->
+                <div class="form-group">
+                  <label for="area">Locality/Area</label>
+                  <input id="area" formControlName="area" class="form-control">
+
+                  <!-- If Locality/Area validation fails -->
+                  <div
+                    *ngIf="addPropertyForm.get('address').invalid && (addPropertyForm.get('address').dirty || addPropertyForm.get('address').touched)"
+                    class="error-text">
+                    <div *ngIf="addPropertyForm.get('area').hasError('required')">
+                      Locality/Area is required.
+                    </div>
+                    <div *ngIf="addPropertyForm.get('area').hasError('minlength')">
+                      Locality/Area must be at least 2 characters long.
+                    </div>
+                    <div *ngIf="addPropertyForm.get('area').hasError('maxlength')">
+                      Locality/Area must be at max 25 characters long.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Price -->
+                <div class="form-group">
+                  <label for="price">Price</label>
+                  <input id="price" formControlName="price" currencyMask  class="form-control" [options]="{ prefix: 'RS ' }"/>
+                  <!-- <input id="price" formControlName="price" class="form-control" pattern="^[0-9]*$"> -->
+
+                  <!-- If price validation fails -->
+                  <div
+                    *ngIf="addPropertyForm.get('price').invalid && (addPropertyForm.get('price').dirty || addPropertyForm.get('price').touched)"
+                    class="error-text">
+                    <div *ngIf="addPropertyForm.get('price').hasError('required')">
+                      Price is required.
+                    </div>
+                    <div *ngIf="addPropertyForm.get('price').hasError('min')">
+                      Price should be at least 1.
+                    </div>
+                    <div *ngIf="addPropertyForm.get('price').hasError('max')">
+                      Price should be max 99999999.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- bedrooms -->
+                <div class="form-group">
+                  <label for="bedrooms">Bedrooms</label>
+                  <select formControlName="bedrooms" class="form-control">
+                    <option>Select bedrooms</option>
+                    <option *ngFor="let room of bedroomsList">{{room}}</option>
+                  </select>
+
+                  <!-- If bedrooms validation fails -->
+                  <div
+                    *ngIf="addPropertyForm.get('bedrooms').invalid && (addPropertyForm.get('bedrooms').dirty || addPropertyForm.get('bedrooms').touched)"
+                    class="error-text">
+                    <div *ngIf="addPropertyForm.get('bedrooms').hasError('required')">
+                      Bedrooms is required.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Baths -->
+                <div class="form-group">
+                  <label for="bath">Bath</label>
+                  <select formControlName="bath" class="form-control">
+                    <option>Select bath</option>
+                    <option *ngFor="let bath of bathsList">{{bath}}</option>
+                  </select>
+
+                  <!-- If baths validation fails -->
+                  <div
+                    *ngIf="addPropertyForm.get('bath').invalid && (addPropertyForm.get('bath').dirty || addPropertyForm.get('bath').touched)"
+                    class="error-text">
+                    <div *ngIf="addPropertyForm.get('bath').hasError('required')">
+                      Bath is required.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Carpet Area SQ FT -->
+                <div class="form-group">
+                    <label for="price">Carpet Area SQ FT</label>
+                    <input id="carpetFT" formControlName="carpetFT" currencyMask  class="form-control" [options]="{ prefix: '' }"/>
+  
+                    <!-- If Carpet Area SQ FT validation fails -->
+                    <div
+                      *ngIf="addPropertyForm.get('carpetFT').invalid && (addPropertyForm.get('carpetFT').dirty || addPropertyForm.get('carpetFT').touched)"
+                      class="error-text">
+                      <div *ngIf="addPropertyForm.get('carpetFT').hasError('carpetFT')">
+                        Carpet Area SQ FT is required.
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Carpet Area SQ YD -->
+                  <div class="form-group">
+                    <label for="price">Carpet Area SQ YD</label>
+                    <input id="carpetYD" formControlName="carpetYD" currencyMask  class="form-control" [options]="{ prefix: '' }"/>
+  
+                    <!-- If carpetYD validation fails -->
+                    <div
+                      *ngIf="addPropertyForm.get('carpetYD').invalid && (addPropertyForm.get('carpetYD').dirty || addPropertyForm.get('carpetYD').touched)"
+                      class="error-text">
+                      <div *ngIf="addPropertyForm.get('carpetYD').hasError('required')">
+                        Carpet area SQ YD is required.
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Carpet Area SQ MT -->
+                  <div class="form-group">
+                    <label for="price">Carpet Area SQ MT</label>
+                    <input id="carpetMT" formControlName="carpetMT" currencyMask  class="form-control" [options]="{ prefix: '' }"/>
+  
+                    <!-- If price validation fails -->
+                    <div
+                      *ngIf="addPropertyForm.get('carpetMT').invalid && (addPropertyForm.get('carpetMT').dirty || addPropertyForm.get('carpetMT').touched)"
+                      class="error-text">
+                      <div *ngIf="addPropertyForm.get('carpetMT').hasError('required')">
+                        Carpet area SQ MT is required.
+                      </div>
+                    </div>
+                  </div>
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+                <div class="pb-3">
+                  <span *ngIf="success">{{success}}</span>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
